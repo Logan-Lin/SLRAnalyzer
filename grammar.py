@@ -1,4 +1,6 @@
 import pandas as pd
+from enum import Enum
+from copy import copy
 
 
 def init_grammar(file, method="csv_file"):
@@ -294,3 +296,33 @@ class Grammar:
                 print("R{}: {}->{}".format(i, self.formula_list[i][0], self.formula_list[i][1]))
         else:
             print(str(self) + '\n')
+
+
+class FormulaType(Enum):
+    EQUAL = 1,  # Like A->V=E
+    BIN = 2,  # Binary formula, like E->E-T
+    SINGLE = 3,  # Just one symbol to one symbol, like E->T
+    ENTRY = 4,  # Like V->i
+    BRACKET = 5,  # Like F->(E)
+
+
+def get_formula_type(formula):
+    """
+    Returns the type of formula.
+
+    :param formula: str, the content of formula
+    :return: FormulaType, representing the type of given formula.
+    """
+    formula = copy(formula).split(' ')
+    if len(formula) == 3:
+        if formula[1] == '=':
+            return FormulaType.EQUAL
+        elif formula[0] == '(' and formula[2] == ')':
+            return FormulaType.BRACKET
+        else:
+            return FormulaType.BIN
+    elif len(formula) == 1:
+        if formula[0].isupper():
+            return FormulaType.SINGLE
+        else:
+            return FormulaType.ENTRY

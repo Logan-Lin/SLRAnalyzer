@@ -1,5 +1,5 @@
 from grammar import Grammar
-from SLRAn import SLRAn
+from SLRAn import SLRAn, str2masks
 
 
 class Main(SLRAn):
@@ -20,7 +20,7 @@ class Main(SLRAn):
             print('1-查看文法')
             print('2-查看分析矩阵')
             print('3-查看有效项目集族')
-            print('4-分析输入串')
+            print('4-分析输入串，生成四元式')
             try:
                 choice = int(input('选择功能：'))
             except ValueError:
@@ -40,9 +40,9 @@ class Main(SLRAn):
                 self.print_read_dict()
                 print()
             elif choice == 4:
-                input_string = input("键入输入串：")
+                input_string = input("键入输入串，使用空格隔开各符号：")
                 try:
-                    self.analysis(list(input_string))
+                    self.analysis(str2masks(input_string.split(' ')))
                     print("有效的输入串。")
                 except (ValueError, KeyError) as e:
                     print("无效的输入串，具体原因：\n", e)
