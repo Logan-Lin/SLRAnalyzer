@@ -37,10 +37,12 @@ def str2masks(input_series):
     """
     result = []
     for symbol in input_series:
-        if symbol.isalpha() or symbol.isdigit():
+        if symbol[0].isalpha() or symbol.isdigit():
             result.append(Mask(symbol, 'i'))
-        else:
+        elif len(symbol) == 1 and symbol in '+-/*()=':
             result.append(Mask('', symbol))
+        else:
+            raise ValueError('Input symbol {} not valid'.format(symbol))
     return result
 
 
@@ -100,7 +102,7 @@ class SLRAn(SLRMap):
             if action == 'Acc':
                 action = 'R0'
             if len(action) == 0:
-                self.print_stack(symbol_stack, state_stack, input_series, action, '',True)
+                self.print_stack(symbol_stack, state_stack, input_series, action, '', True)
                 raise ValueError("Current state {} and input symbol {} don't match any action in analysis map."
                                  .format(top_state_num, input_symbol.outer))
             if action[0] == 'S':
