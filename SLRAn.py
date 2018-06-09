@@ -87,6 +87,7 @@ class SLRAn(SLRMap):
         step_str, symbol_stack_str, state_stack_str, input_series_str, action_str, quat_str = [], [], [], [], [], []
 
         self.step = 0
+        self.temp_num = 0
         symbol_stack = [Mask('', '#')]
         state_stack = [0]
         input_series.append(Mask('', '#'))
