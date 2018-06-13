@@ -10,9 +10,9 @@ def split_input_string(input_string):
     :return: list with each item containing split symbols, identifiers and numbers.
         All symbols will remain the same sequence with input string.
     """
-    if not bool(re.compile('^[a-zA-Z0-9.*/+-=() ]+$').search(input_string)):
+    if not bool(re.compile("^[a-zA-Z0-9.*/+-=()_' ]+$").search(input_string)):
         raise ValueError("Input series contain symbols not in assignment statement.")
-    return list(map(process_single, filter(len, re.findall(r"[\-+*/=()]|[\w]+", input_string))))
+    return list(map(process_single, filter(len, re.findall(r"[\-+*/=()]|[\w('|_)]+", input_string))))
 
 
 def process_single(word):
