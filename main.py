@@ -16,38 +16,52 @@ class Main(SLRAn):
         """
         choice = -1
         while not choice == 0:
-            print('====SLR(1)文法分析与四元式生成====')
-            print('0-退出')
-            print('1-查看文法')
-            print('2-查看分析矩阵')
-            print('3-查看有效项目集族')
-            print('4-分析输入串，生成四元式')
-            try:
-                choice = int(input('选择功能：'))
-            except ValueError:
-                continue
+            print("loganlin@SLR1:# ", end='')
+            choice = input()
+            choice = choice.split(' ')
 
-            if choice == 1:
+            if choice[0] == 'grammar':
                 self.grammar.print_grammar(flat=True)
                 print()
                 self.grammar.print_follow()
                 print()
-            elif choice == 2:
+            elif choice[0] == 'map':
                 self.print_map()
                 print()
-            elif choice == 3:
+            elif choice[0] == 'ps':
                 self.print_ps_list()
                 print()
                 self.print_read_dict()
                 print()
-            elif choice == 4:
-                input_string = input("键入输入串：")
+            elif choice[0] == 'an':
+                if len(choice) < 2:
+                    print('Please input the string to analysis after order an.')
+                    continue
+                input_string = ' '.join(choice[1:])
                 try:
                     self.analysis(str2masks(split_input_string(input_string)))
-                    print("有效的输入串。")
+                    print("Valid input string.")
                 except (ValueError, KeyError) as e:
-                    print("无效的输入串，具体原因：\n", e)
+                    print("Invalid input string.\n", e)
                 print()
+            elif choice[0] == 'csv':
+                file_name = 'map.csv'
+                if len(choice) > 1:
+                    file_name = choice[1]
+                self.export_to_csv(file_name)
+                print("Exported to {}".format(file_name), '\n')
+            elif choice[0] == 'help':
+                format_string = '\t{:15}{}'
+                print(format_string.format('grammar', 'Print out grammar details'))
+                print(format_string.format('ps', 'Print out project sets'))
+                print(format_string.format('map', 'Print out analysis map'))
+                print(format_string.format('csv <filename>', 'Export analysis map to csv file'))
+                print(format_string.format('an <series>', 'Analysis series'))
+                print(format_string.format('exit', 'Quit this program'))
+            elif choice[0] == 'exit':
+                exit(0)
+            else:
+                print('Invalid order, input help to see all orders')
 
 
 if __name__ == '__main__':

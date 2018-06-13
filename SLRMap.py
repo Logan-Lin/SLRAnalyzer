@@ -1,4 +1,5 @@
 from project import get_init_ps, ProjectSet
+import csv
 
 
 class SLRMap:
@@ -115,3 +116,15 @@ class SLRMap:
         print(format_string.format(*([''] + self.grammar.symbols)))
         for i in range(len(self.ps_list)):
             print(format_string.format(*(['S{}'.format(i)] + self.map[i])))
+
+    def export_to_csv(self, file_name='map.csv'):
+        """
+        Export SLR map to csv file.
+
+        :param file_name: the csv file directory to export.
+        """
+        with open(file_name, 'w', newline='') as file:
+            writer = csv.writer(file, delimiter=',')
+            writer.writerow([''] + self.grammar.symbols)
+            for i in range(len(self.ps_list)):
+                writer.writerow(['S{}'.format(i)] + self.map[i])
