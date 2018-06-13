@@ -1,5 +1,6 @@
 from grammar import Grammar
 from SLRAn import SLRAn, str2masks
+from LexAn import split_input_string
 
 
 class Main(SLRAn):
@@ -40,9 +41,9 @@ class Main(SLRAn):
                 self.print_read_dict()
                 print()
             elif choice == 4:
-                input_string = input("键入输入串，使用空格隔开各符号：")
+                input_string = input("键入输入串：")
                 try:
-                    self.analysis(str2masks(input_string.split(' ')))
+                    self.analysis(str2masks(split_input_string(input_string)))
                     print("有效的输入串。")
                 except (ValueError, KeyError) as e:
                     print("无效的输入串，具体原因：\n", e)
